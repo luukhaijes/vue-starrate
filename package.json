@@ -1,7 +1,7 @@
 {
-  "name": "vue-easy-datepicker",
+  "name": "vue-easy-starrare",
   "version": "0.1.0",
-  "description": "Small datepicker for vue",
+  "description": "Small star rate for vue",
   "types": "index.d.ts",
   "main": "dist/datepicker.umd.js",
   "module": "dist/datepicker.esm.js",
