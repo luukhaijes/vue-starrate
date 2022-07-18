@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
     <p>current score: {{ score }}</p>
-    <StarRating class="stars" :score="score" />
+    <StarRating class="stars" v-model="score" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
 import StarRating from '../src/StarRating.vue';
-const score = ref(2);
+const score = ref(4);
 </script>
 
 <style>

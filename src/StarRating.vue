@@ -12,33 +12,30 @@
 
 <template>
   <div data-test="star-container" class="rating__container">
-    <div v-for="star in STARS" :key="star.star" class="rating__star">
+    <div v-for="(star, i) in starsSet" :key="i" class="rating__star">
       <IconStar data-test="star"
-                :data-star="star.star" :offset-percentage="star.offsetPercentage"
+                :data-star="i"
+                :offset-percentage="star"
                 :ref="(el) => addStarEls(el)"
                 @mouseenter.native="hovering($event, true)"
                 @mouseleave.native="hovering($event, false)"
+                @click="handleStarClick(i)"
       />
     </div>
   </div>
-  {{ STARS }}
 </template>
 
 <script lang="ts" setup>
 import type { ComponentPublicInstance } from "vue";
-import { defineEmits, onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import IconStar from "./icons/IconStar.vue";
-
-const getStars = () => [...Array(5).keys()].map((_, i) => ({
-  star: i,
-  offsetPercentage: 0
-}))
-
-const STARS = ref(getStars());
-
-let STARS_VAL: number[] = [];
+import { useGetStarSet } from "./composables/useGetStarSet";
 
 const props = defineProps({
+  modelValue: {
+    type: Number,
+    default: 0
+  },
   score: {
     type: Number,
     default: 0
@@ -49,25 +46,21 @@ const props = defineProps({
   }
 });
 
-defineEmits<{
+const scoreValue = ref<number>(0)
+const { starsSet, generate } = useGetStarSet(props.starScoreStyle)
+
+
+const emits = defineEmits<{
   (e: "valueChange", value: number): void;
+  (e: "update:modelValue", value: number): void;
 }>();
 
-const stars = () => {
-  const score = Math.floor(props.score);
-  if (score > 1) {
-    const scoreHalved = props.starScoreStyle === 5 ? props.score / 2 : props.score;
-    const fillCount = props.starScoreStyle === 5 ? Math.floor(scoreHalved) : scoreHalved;
-    const remainder = parseFloat((scoreHalved % 1).toString()).toFixed(2);
-
-    const stars = [...Array(fillCount).keys()].map(() => 100);
-    const remainderPercentage = +remainder * 100;
-    STARS_VAL = [...stars, remainderPercentage];
-    STARS_VAL.forEach((per, index) => {
-      STARS.value[index].offsetPercentage = per;
-    })
-  }
-};
+const handleStarClick = (index: number) => {
+  const score = index + 1;
+  emits("valueChange", score);
+  emits("update:modelValue", score);
+  scoreValue.value = score;
+}
 
 const divs = ref<Array<ComponentPublicInstance<HTMLElement>>>([]);
 
@@ -75,25 +68,28 @@ const addStarEls = (el: unknown) => {
   divs.value.push(el as ComponentPublicInstance<HTMLElement>);
 };
 
-const isDefined = <T>(item: T) => !(item === undefined || item === null);
-
 const hovering = (el: MouseEvent, hovering: boolean) => {
   let starAttr = (el.target as HTMLElement).dataset.star;
   if (starAttr && hovering) {
-    const starNr = +starAttr + 1;
-    console.log(starNr);
-    [...Array(starNr).keys()].forEach((star, index) => {
-      console.log(divs.value[star]);
-      STARS.value[index].offsetPercentage = 100;
+    const starNr = +starAttr;
+
+    [...Array(props.starScoreStyle).keys()].forEach((star, index) => {
+      if (index <= starNr) {
+        console.log(divs.value[star]);
+        starsSet.value[index] = 100;
+      }
     })
   } else {
-    STARS.value.forEach((star, index) => {
-      STARS.value[index].offsetPercentage = STARS_VAL[index] || 0;
-    })
+    generate(scoreValue.value);
   }
 }
 
+watch([() => props.score, () => props.modelValue], (value) => {
+  generate(value[1]);
+})
+
 onMounted(() => {
-  stars();
+  scoreValue.value = props.score || props.modelValue;
+  generate(scoreValue.value);
 })
 </script>
