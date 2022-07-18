@@ -16,7 +16,6 @@
       <IconStar data-test="star"
                 :data-star="i"
                 :offset-percentage="star"
-                :ref="(el) => addStarEls(el)"
                 @mouseenter.native="hovering($event, true)"
                 @mouseleave.native="hovering($event, false)"
                 @click="handleStarClick(i)"
@@ -26,7 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { ComponentPublicInstance } from "vue";
 import { onMounted, ref, watch } from "vue";
 import IconStar from "./icons/IconStar.vue";
 import { useGetStarSet } from "./composables/useGetStarSet";
@@ -62,12 +60,6 @@ const handleStarClick = (index: number) => {
   scoreValue.value = score;
 }
 
-const divs = ref<Array<ComponentPublicInstance<HTMLElement>>>([]);
-
-const addStarEls = (el: unknown) => {
-  divs.value.push(el as ComponentPublicInstance<HTMLElement>);
-};
-
 const hovering = (el: MouseEvent, hovering: boolean) => {
   let starAttr = (el.target as HTMLElement).dataset.star;
   if (starAttr && hovering) {
@@ -75,7 +67,6 @@ const hovering = (el: MouseEvent, hovering: boolean) => {
 
     [...Array(props.starScoreStyle).keys()].forEach((star, index) => {
       if (index <= starNr) {
-        console.log(divs.value[star]);
         starsSet.value[index] = 100;
       }
     })
