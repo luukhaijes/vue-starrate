@@ -1,9 +1,11 @@
 import { ComponentOptionsMixin, ComputedOptions, DefineComponent, MethodOptions } from "vue";
 
-type EmitEvents = '';
+type EmitEvents = 'update:modelValue' | 'valueChange';
 
 interface VueStarRating {
-  score?: Date
+  score?: number;
+  modelValue?: number;
+  starSet?: 5 | 10
 }
 
 interface PublicMethods extends MethodOptions {
