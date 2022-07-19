@@ -54,7 +54,7 @@ const props = defineProps({
 
 const scoreValue = ref<number>(0)
 const { starsSet, generate } = useGetStarSet(props.starSet)
-
+let animationFrameId: number | null = null;
 
 const emits = defineEmits<{
   (e: "valueChange", value: number): void;
@@ -75,7 +75,11 @@ const hovering = (el: MouseEvent, hovering: boolean) => {
   if (starAttr && hovering) {
     const starNr = +starAttr;
 
-    requestAnimationFrame(() => {
+    if (animationFrameId !== null) {
+      cancelAnimationFrame(animationFrameId);
+    }
+
+    animationFrameId = requestAnimationFrame(() => {
       [...Array(DEFAULT_STAR_AMOUNT).keys()].forEach((star, index) => {
         starsSet.value[index] = index <= starNr ? 100 : 0;
       })
