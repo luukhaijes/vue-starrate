@@ -18,13 +18,13 @@
 </style>
 
 <template>
-  <div data-test="star-container" class="rating__container" :class="{ 'rating__container--readonly': props.starSet === 10 }">
+  <div data-test="star-container" class="rating__container" :class="{ 'rating__container--readonly': readonly || props.starSet === 10 }">
     <div v-for="(star, i) in starsSet" :key="i" class="rating__star">
       <IconStar data-test="star"
                 :data-star="i"
                 :offset-percentage="star"
-                @mouseenter.native="hovering($event, true)"
-                @mouseleave.native="hovering($event, false)"
+                @mouseenter.native="!readonly && hovering($event, true)"
+                @mouseleave.native="!readonly && hovering($event, false)"
                 @click="handleStarClick(i)"
       />
     </div>
@@ -49,6 +49,10 @@ const props = defineProps({
   starSet: {
     type: Number,
     default: 5
+  },
+  readonly: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -62,7 +66,7 @@ const emits = defineEmits<{
 }>();
 
 const handleStarClick = (index: number) => {
-  if (props.starSet === 5) {
+  if (props.starSet === 5 && !props.readonly) {
     const score = index + 1;
     emits("valueChange", score);
     emits("update:modelValue", score);
