@@ -75,8 +75,10 @@ const hovering = (el: MouseEvent, hovering: boolean) => {
   if (starAttr && hovering) {
     const starNr = +starAttr;
 
-    [...Array(DEFAULT_STAR_AMOUNT).keys()].forEach((star, index) => {
-      starsSet.value[index] = index <= starNr ? 100 : 0;
+    requestAnimationFrame(() => {
+      [...Array(DEFAULT_STAR_AMOUNT).keys()].forEach((star, index) => {
+        starsSet.value[index] = index <= starNr ? 100 : 0;
+      })
     })
   } else {
     generate(scoreValue.value);

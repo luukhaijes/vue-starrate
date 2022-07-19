@@ -17,6 +17,7 @@ export default defineConfig({
   build: {
     minify: 'terser',
     emptyOutDir: false,
+    sourcemap: false,
     lib: {
       formats: ['es', 'umd'],
       entry: resolve(__dirname, 'src', 'StarRating.vue'),
