@@ -186,10 +186,10 @@ const useGetStarSet = (starSet) => {
             let starAttr = el.target.dataset.star;
             if (starAttr && hovering) {
                 const starNr = +starAttr;
-                [...Array(DEFAULT_STAR_AMOUNT).keys()].forEach((star, index) => {
-                    if (index <= starNr) {
-                        starsSet.value[index] = 100;
-                    }
+                requestAnimationFrame(() => {
+                    [...Array(DEFAULT_STAR_AMOUNT).keys()].forEach((star, index) => {
+                        starsSet.value[index] = index <= starNr ? 100 : 0;
+                    });
                 });
             }
             else {
@@ -230,10 +230,10 @@ const useGetStarSet = (starSet) => {
 
 ;// CONCATENATED MODULE: ./src/StarRating.vue?vue&type=script&lang=ts&setup=true
  
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/StarRating.vue?vue&type=style&index=0&id=8f9ccab0&lang=css
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/StarRating.vue?vue&type=style&index=0&id=3c128b5c&lang=css
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/StarRating.vue?vue&type=style&index=0&id=8f9ccab0&lang=css
+;// CONCATENATED MODULE: ./src/StarRating.vue?vue&type=style&index=0&id=3c128b5c&lang=css
 
 ;// CONCATENATED MODULE: ./src/StarRating.vue
 
