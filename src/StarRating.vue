@@ -4,14 +4,21 @@
   flex-direction: row;
 }
 
+.rating__container > .rating__star {
+  cursor: pointer;
+}
+
+.rating__container.rating__container--readonly > .rating__star {
+  cursor: default;
+}
+
 .rating__star {
   width: 6rem;
-  cursor: pointer;
 }
 </style>
 
 <template>
-  <div data-test="star-container" class="rating__container">
+  <div data-test="star-container" class="rating__container" :class="{ 'rating__container--readonly': props.starSet === 10 }">
     <div v-for="(star, i) in starsSet" :key="i" class="rating__star">
       <IconStar data-test="star"
                 :data-star="i"
@@ -28,6 +35,7 @@
 import { onMounted, ref, watch } from "vue";
 import IconStar from "./icons/IconStar.vue";
 import { useGetStarSet } from "./composables/useGetStarSet";
+import { DEFAULT_STAR_AMOUNT } from "./constants";
 
 const props = defineProps({
   modelValue: {
@@ -38,14 +46,14 @@ const props = defineProps({
     type: Number,
     default: 0
   },
-  starScoreStyle: {
+  starSet: {
     type: Number,
     default: 5
   }
 });
 
 const scoreValue = ref<number>(0)
-const { starsSet, generate } = useGetStarSet(props.starScoreStyle)
+const { starsSet, generate } = useGetStarSet(props.starSet)
 
 
 const emits = defineEmits<{
@@ -54,10 +62,12 @@ const emits = defineEmits<{
 }>();
 
 const handleStarClick = (index: number) => {
-  const score = index + 1;
-  emits("valueChange", score);
-  emits("update:modelValue", score);
-  scoreValue.value = score;
+  if (props.starSet === 5) {
+    const score = index + 1;
+    emits("valueChange", score);
+    emits("update:modelValue", score);
+    scoreValue.value = score;
+  }
 }
 
 const hovering = (el: MouseEvent, hovering: boolean) => {
@@ -65,7 +75,7 @@ const hovering = (el: MouseEvent, hovering: boolean) => {
   if (starAttr && hovering) {
     const starNr = +starAttr;
 
-    [...Array(props.starScoreStyle).keys()].forEach((star, index) => {
+    [...Array(DEFAULT_STAR_AMOUNT).keys()].forEach((star, index) => {
       if (index <= starNr) {
         starsSet.value[index] = 100;
       }

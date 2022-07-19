@@ -1,9 +1,8 @@
 import { ref } from "vue";
+import { DEFAULT_STAR_AMOUNT } from "../constants";
 
 export const useGetStarSet = (starSet: number) => {
-  const getStars = () => [...Array(5).keys()];
-
-  const starsSet = ref<number[]>(getStars());
+  const starsSet = ref<number[]>([]);
 
   const generate = (score: number) => {
     const scoreHalved = starSet === 5 ? score : score / 2;
@@ -20,7 +19,7 @@ export const useGetStarSet = (starSet: number) => {
     }
     stars.push(remainderPercentage);
 
-    [...Array(starSet).keys()].forEach((index) => {
+    [...Array(DEFAULT_STAR_AMOUNT).keys()].forEach((index) => {
       starsSet.value[index] = stars[index];
     });
   }

@@ -1,0 +1,1 @@
+export const DEFAULT_STAR_AMOUNT = 5;
