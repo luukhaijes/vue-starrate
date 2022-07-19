@@ -21,7 +21,7 @@ export default defineConfig({
     lib: {
       formats: ['es', 'umd'],
       entry: resolve(__dirname, 'src', 'StarRating.vue'),
-      name: 'VueDatepicker',
+      name: 'vueStarRate',
       fileName: (format) => `vue-star-rate.${format}.js`,
     },
     rollupOptions: {

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Small star rate for vue",
   "types": "index.d.ts",
-  "main": "dist/datepicker.umd.js",
-  "module": "dist/datepicker.esm.js",
+  "main": "dist/vue-star-rate.umd.js",
+  "module": "dist/vue-star-rate.es.js",
   "browser": {
     "sfc": "./sfc"
   },
