@@ -1,0 +1,1 @@
+.rating__container{display:flex;flex-direction:row}.rating__container>.rating__star{cursor:pointer}.rating__container.rating__container--readonly>.rating__star{cursor:default}.rating__star{width:6rem}

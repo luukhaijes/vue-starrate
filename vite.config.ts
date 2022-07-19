@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src/VueDatePicker', import.meta.url)),
+      '@': fileURLToPath(new URL('./src/VueStarRate', import.meta.url)),
     },
   },
   esbuild: {
@@ -21,14 +21,13 @@ export default defineConfig({
       formats: ['es', 'umd'],
       entry: resolve(__dirname, 'src', 'StarRating.vue'),
       name: 'VueDatepicker',
-      fileName: (format) => `vue-datepicker.${format}.js`,
+      fileName: (format) => `vue-star-rate.${format}.js`,
     },
     rollupOptions: {
-      external: ['vue', 'date-fns'],
+      external: ['vue'],
       output: {
         globals: {
-          vue: 'Vue',
-          'date-fns': 'dateFns',
+          vue: 'Vue'
         },
       },
     },
