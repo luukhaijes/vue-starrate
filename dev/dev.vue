@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <p>current score: {{ score }}</p>
-    <StarRating class="stars" readonly v-model="score" />
+    <StarRating class="stars" v-model="score" />
   </div>
 </template>
 
